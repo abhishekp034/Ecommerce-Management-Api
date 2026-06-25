@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" th:href="@{/}">PCMS</a>
+    <nav>
+        <a class="active" th:href="@{/products}">Products</a>
+        <a th:href="@{/customers}">Customers</a>
+        <a th:href="@{/orders}">Orders</a>
+    </nav>
+</header>
+<main class="shell">
+    <section class="page-heading">
+        <div>
+            <p class="eyebrow">Inventory module</p>
+            <h1>Products</h1>
+        </div>
+        <a class="button primary" th:href="@{/products/new}">Add Product</a>
+    </section>
+
+    <form class="toolbar" th:action="@{/products}" method="get">
+        <input type="search" name="keyword" placeholder="Search SKU, product, or category" th:value="${keyword}">
+        <button class="button" type="submit">Search</button>
+    </form>
+
+    <section class="panel">
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>SKU</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Status</th>
+                    <th class="actions">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product : ${products}">
+                    <td th:text="${product.sku}">SKU</td>
+                    <td th:text="${product.name}">Name</td>
+                    <td th:text="${product.category}">Category</td>
+                    <td th:text="${#numbers.formatCurrency(product.price)}">$0</td>
+                    <td th:text="${product.quantity}">0</td>
+                    <td><span class="status" th:classappend="${product.status == 'LOW_STOCK'} ? 'warn' : 'ok'" th:text="${product.status}">ACTIVE</span></td>
+                    <td class="actions">
+                        <a class="button small" th:href="@{/products/{id}/edit(id=${product.id})}">Edit</a>
+                        <form th:action="@{/products/{id}/delete(id=${product.id})}" method="post">
+                            <button class="button small danger" type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+</body>
+</html>

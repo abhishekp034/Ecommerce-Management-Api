@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCMS Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" th:href="@{/}">PCMS</a>
+    <nav>
+        <a th:href="@{/products}">Products</a>
+        <a th:href="@{/customers}">Customers</a>
+        <a th:href="@{/orders}">Orders</a>
+    </nav>
+</header>
+
+<main class="shell">
+    <section class="page-heading">
+        <div>
+            <p class="eyebrow">Operations dashboard</p>
+            <h1>Product & Customer Management</h1>
+        </div>
+        <a class="button primary" th:href="@{/products/new}">Add Product</a>
+    </section>
+
+    <section class="metrics">
+        <article class="metric">
+            <span>Total Products</span>
+            <strong th:text="${stats.totalProducts()}">0</strong>
+        </article>
+        <article class="metric">
+            <span>Active Products</span>
+            <strong th:text="${stats.activeProducts()}">0</strong>
+        </article>
+        <article class="metric">
+            <span>Customers</span>
+            <strong th:text="${stats.totalCustomers()}">0</strong>
+        </article>
+        <article class="metric">
+            <span>Orders</span>
+            <strong th:text="${stats.totalOrders()}">0</strong>
+        </article>
+        <article class="metric">
+            <span>Inventory Value</span>
+            <strong th:text="${#numbers.formatCurrency(stats.inventoryValue())}">$0</strong>
+        </article>
+        <article class="metric">
+            <span>Booked Revenue</span>
+            <strong th:text="${#numbers.formatCurrency(stats.bookedRevenue())}">$0</strong>
+        </article>
+    </section>
+
+    <section class="panel">
+        <div class="panel-title">
+            <h2>Low Stock Watchlist</h2>
+            <a th:href="@{/products}">View all</a>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>SKU</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Qty</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product : ${lowStockProducts}">
+                    <td th:text="${product.sku}">SKU</td>
+                    <td th:text="${product.name}">Name</td>
+                    <td th:text="${product.category}">Category</td>
+                    <td th:text="${product.quantity}">0</td>
+                    <td><span class="status warn" th:text="${product.status}">LOW_STOCK</span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+</body>
+</html>

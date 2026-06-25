@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Form</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" th:href="@{/}">PCMS</a>
+    <nav>
+        <a th:href="@{/products}">Products</a>
+        <a class="active" th:href="@{/customers}">Customers</a>
+        <a th:href="@{/orders}">Orders</a>
+    </nav>
+</header>
+<main class="shell narrow">
+    <section class="page-heading">
+        <div>
+            <p class="eyebrow">Customer relations</p>
+            <h1 th:text="${customer.id == null ? 'Add Customer' : 'Edit Customer'}">Customer</h1>
+        </div>
+    </section>
+    <form class="form-panel" th:object="${customer}"
+          th:action="${customer.id == null ? '/customers' : '/customers/' + customer.id}" method="post">
+        <label>Name <input th:field="*{name}" required></label>
+        <label>Email <input type="email" th:field="*{email}" required></label>
+        <label>Phone <input th:field="*{phone}" required></label>
+        <label>City <input th:field="*{city}" required></label>
+        <label>Tier
+            <select th:field="*{loyaltyTier}">
+                <option value="BRONZE">BRONZE</option>
+                <option value="SILVER">SILVER</option>
+                <option value="GOLD">GOLD</option>
+                <option value="PLATINUM">PLATINUM</option>
+            </select>
+        </label>
+        <div class="form-actions">
+            <a class="button" th:href="@{/customers}">Cancel</a>
+            <button class="button primary" type="submit">Save</button>
+        </div>
+    </form>
+</main>
+</body>
+</html>

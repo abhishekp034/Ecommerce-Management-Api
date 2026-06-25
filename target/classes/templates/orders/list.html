@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" th:href="@{/}">PCMS</a>
+    <nav>
+        <a th:href="@{/products}">Products</a>
+        <a th:href="@{/customers}">Customers</a>
+        <a class="active" th:href="@{/orders}">Orders</a>
+    </nav>
+</header>
+<main class="shell">
+    <section class="page-heading">
+        <div>
+            <p class="eyebrow">Relationship tracking</p>
+            <h1>Customer Orders</h1>
+        </div>
+        <a class="button primary" th:href="@{/orders/new}">Add Order</a>
+    </section>
+
+    <section class="panel">
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Customer</th>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th class="actions">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order : ${orders}">
+                    <td th:text="${order.orderDate}">Date</td>
+                    <td th:text="${order.customerName}">Customer</td>
+                    <td th:text="${order.productName}">Product</td>
+                    <td th:text="${order.quantity}">1</td>
+                    <td th:text="${#numbers.formatCurrency(order.lineTotal)}">$0</td>
+                    <td><span class="status ok" th:text="${order.orderStatus}">PLACED</span></td>
+                    <td class="actions">
+                        <a class="button small" th:href="@{/orders/{id}/edit(id=${order.id})}">Edit</a>
+                        <form th:action="@{/orders/{id}/delete(id=${order.id})}" method="post">
+                            <button class="button small danger" type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" th:href="@{/}">PCMS</a>
+    <nav>
+        <a th:href="@{/products}">Products</a>
+        <a class="active" th:href="@{/customers}">Customers</a>
+        <a th:href="@{/orders}">Orders</a>
+    </nav>
+</header>
+<main class="shell">
+    <section class="page-heading">
+        <div>
+            <p class="eyebrow">Customer relations</p>
+            <h1>Customers</h1>
+        </div>
+        <a class="button primary" th:href="@{/customers/new}">Add Customer</a>
+    </section>
+
+    <form class="toolbar" th:action="@{/customers}" method="get">
+        <input type="search" name="keyword" placeholder="Search name, email, or city" th:value="${keyword}">
+        <button class="button" type="submit">Search</button>
+    </form>
+
+    <section class="panel">
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>City</th>
+                    <th>Tier</th>
+                    <th class="actions">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="customer : ${customers}">
+                    <td th:text="${customer.name}">Name</td>
+                    <td th:text="${customer.email}">Email</td>
+                    <td th:text="${customer.phone}">Phone</td>
+                    <td th:text="${customer.city}">City</td>
+                    <td><span class="status ok" th:text="${customer.loyaltyTier}">SILVER</span></td>
+                    <td class="actions">
+                        <a class="button small" th:href="@{/customers/{id}/edit(id=${customer.id})}">Edit</a>
+                        <form th:action="@{/customers/{id}/delete(id=${customer.id})}" method="post">
+                            <button class="button small danger" type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+</body>
+</html>

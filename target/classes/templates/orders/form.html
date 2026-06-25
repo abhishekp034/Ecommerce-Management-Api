@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Form</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" th:href="@{/}">PCMS</a>
+    <nav>
+        <a th:href="@{/products}">Products</a>
+        <a th:href="@{/customers}">Customers</a>
+        <a class="active" th:href="@{/orders}">Orders</a>
+    </nav>
+</header>
+<main class="shell narrow">
+    <section class="page-heading">
+        <div>
+            <p class="eyebrow">Relationship tracking</p>
+            <h1 th:text="${order.id == null ? 'Add Order' : 'Edit Order'}">Order</h1>
+        </div>
+    </section>
+    <form class="form-panel" th:object="${order}"
+          th:action="${order.id == null ? '/orders' : '/orders/' + order.id}" method="post">
+        <label>Customer
+            <select th:field="*{customerId}" required>
+                <option value="">Select customer</option>
+                <option th:each="customer : ${customers}" th:value="${customer.id}" th:text="${customer.name}"></option>
+            </select>
+        </label>
+        <label>Product
+            <select th:field="*{productId}" required>
+                <option value="">Select product</option>
+                <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.sku + ' - ' + product.name}"></option>
+            </select>
+        </label>
+        <label>Quantity <input type="number" min="1" th:field="*{quantity}" required></label>
+        <label>Status
+            <select th:field="*{orderStatus}">
+                <option value="PLACED">PLACED</option>
+                <option value="SHIPPED">SHIPPED</option>
+                <option value="DELIVERED">DELIVERED</option>
+                <option value="CANCELLED">CANCELLED</option>
+            </select>
+        </label>
+        <label>Order Date <input type="date" th:field="*{orderDate}" required></label>
+        <div class="form-actions">
+            <a class="button" th:href="@{/orders}">Cancel</a>
+            <button class="button primary" type="submit">Save</button>
+        </div>
+    </form>
+</main>
+</body>
+</html>
