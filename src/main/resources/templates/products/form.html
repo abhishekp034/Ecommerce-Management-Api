@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Form</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" th:href="@{/}">PCMS</a>
+    <nav>
+        <a class="active" th:href="@{/products}">Products</a>
+        <a th:href="@{/customers}">Customers</a>
+        <a th:href="@{/orders}">Orders</a>
+    </nav>
+</header>
+<main class="shell narrow">
+    <section class="page-heading">
+        <div>
+            <p class="eyebrow">Inventory module</p>
+            <h1 th:text="${product.id == null ? 'Add Product' : 'Edit Product'}">Product</h1>
+        </div>
+    </section>
+
+    <form class="form-panel" th:object="${product}"
+          th:action="${product.id == null ? '/products' : '/products/' + product.id}" method="post">
+        <label>SKU <input th:field="*{sku}" required></label>
+        <label>Name <input th:field="*{name}" required></label>
+        <label>Category <input th:field="*{category}" required></label>
+        <label>Price <input type="number" step="0.01" min="0.01" th:field="*{price}" required></label>
+        <label>Quantity <input type="number" min="0" th:field="*{quantity}" required></label>
+        <label>Status
+            <select th:field="*{status}">
+                <option value="ACTIVE">ACTIVE</option>
+                <option value="LOW_STOCK">LOW_STOCK</option>
+                <option value="DISCONTINUED">DISCONTINUED</option>
+            </select>
+        </label>
+        <div class="form-actions">
+            <a class="button" th:href="@{/products}">Cancel</a>
+            <button class="button primary" type="submit">Save</button>
+        </div>
+    </form>
+</main>
+</body>
+</html>
